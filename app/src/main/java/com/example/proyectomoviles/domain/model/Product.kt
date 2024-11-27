@@ -1,4 +1,4 @@
-package com.example.proyectomoviles.clases
+package com.example.proyectomoviles.domain.model
 
 data class Product(
     val name: String,
