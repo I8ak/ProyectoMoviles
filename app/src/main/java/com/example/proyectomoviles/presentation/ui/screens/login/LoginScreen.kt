@@ -25,11 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectomoviles.R
+import com.example.proyectomoviles.presentation.navigation.Screen
+import com.example.proyectomoviles.presentation.ui.screens.ListProducts.ProdcutContent
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -39,7 +44,8 @@ fun LoginScreen(navController: NavHostController) {
                 modifier = Modifier
                     .background(Color.Transparent)
                     .width(100.dp)
-                    .height(100.dp).align(Alignment.CenterHorizontally),
+                    .height(100.dp)
+                    .align(Alignment.CenterHorizontally),
                 contentScale = ContentScale.Fit
                 , contentDescription = "Logo")
             Spacer(modifier = Modifier.padding(5.dp))
@@ -55,16 +61,24 @@ fun LoginScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.padding(5.dp))
 
             Row (modifier = Modifier.align(Alignment.CenterHorizontally)){
-                Button(onClick = {  }
+                Button(onClick = { navController.navigate(Screen.ListProducts.route) }
                 ) {
                     Text(text = "Login")
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
-                Button(onClick = {  }
+                Button(onClick = { navController.navigate(Screen.Register.route) }
                 ) {
                     Text(text = "Register")
                 }
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview13() {
+    LoginScreen(
+        navController = rememberNavController()
+    )
 }

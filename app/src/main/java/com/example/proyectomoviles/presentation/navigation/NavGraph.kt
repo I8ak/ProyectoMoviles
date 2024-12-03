@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectomoviles.ListProducts
+import com.example.proyectomoviles.presentation.ui.screens.ListProducts.ProdcutContent
+import com.example.proyectomoviles.presentation.ui.screens.addProduct.AddProductsScreen
 import com.example.proyectomoviles.presentation.ui.screens.login.LoginScreen
+import com.example.proyectomoviles.presentation.ui.screens.register.RegisterScreen
 
 @Composable
 fun NavGraph(startDestination: String=Screen.Login.route) {
@@ -14,8 +16,14 @@ fun NavGraph(startDestination: String=Screen.Login.route) {
         composable(Screen.Login.route){
             LoginScreen(navController)
         }
-        composable(Screen.Products.route){
-            ListProducts(navController)
+        composable(Screen.ListProducts.route){
+            ProdcutContent(navController)
+        }
+        composable(Screen.AddProduct.route){
+            AddProductsScreen(navController)
+        }
+        composable(Screen.Register.route){
+            RegisterScreen(navController)
         }
     }
 }

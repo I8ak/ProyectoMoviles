@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -29,14 +30,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectomoviles.domain.model.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProdcutContent( modifier: Modifier = Modifier) {
+fun ProdcutContent(  navController: NavHostController) {
     val products = listOf(
         Product("Assad", "Invierno", 10, 20.5, 7458),
         Product("Luna Rosa", "Primavera", 15, 25.0, 8324),
@@ -62,16 +66,14 @@ fun ProdcutContent( modifier: Modifier = Modifier) {
         },
         bottomBar = {
             BottomAppBar {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { navController.navigate("addProduct") }) {
                     Icon(
                         Icons.Default.Add,
-                        contentDescription = "Mas")
+                        contentDescription = "AddProduct")
                 }
             }
         }
-
     )
-
 }
 
 @Composable
@@ -84,7 +86,7 @@ fun ProductCard(product: Product) {
         Row {
             if (isSelected) {
                 Icon(
-                    Icons.Default.Delete,
+                    Icons.Default.Clear,
                     contentDescription = "Contraer",
                     Modifier.clickable { isSelected = false })
                 Column {
@@ -112,8 +114,6 @@ fun ProductCard(product: Product) {
                 Text(text = product.name)
             }
         }
-
-
     }
 }
 
@@ -122,8 +122,6 @@ fun ProductCard(product: Product) {
 @Composable
 fun GreetingPreview11() {
     ProdcutContent(
-
-            Modifier.padding(5.dp)
-
+            navController = rememberNavController()
     )
 }

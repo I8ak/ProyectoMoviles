@@ -19,17 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectomoviles.ui.theme.ProyectoMovilesTheme
 
 @Composable
-fun AddProducts( modifier: Modifier = Modifier) {
+fun AddProductsScreen( navController: NavController) {
 
     var name by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
     var precio by remember { mutableStateOf(0.0) }
     var id by remember { mutableStateOf(0) }
     var quantity by remember { mutableStateOf(0) }
-    Column(modifier = modifier.statusBarsPadding()) {
+    Column(modifier = Modifier.statusBarsPadding()) {
         TextField(
             modifier = Modifier
                 .background(Color.LightGray)
@@ -87,6 +89,6 @@ fun AddProducts( modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview2() {
     ProyectoMovilesTheme {
-        AddProducts()
+        AddProductsScreen(navController = rememberNavController())
     }
 }
