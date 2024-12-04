@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -86,7 +88,7 @@ fun ProductCard(product: Product) {
         Row {
             if (isSelected) {
                 Icon(
-                    Icons.Default.Clear,
+                    Icons.Default.Remove,
                     contentDescription = "Contraer",
                     Modifier.clickable { isSelected = false })
                 Column {
@@ -97,15 +99,13 @@ fun ProductCard(product: Product) {
                     Text(text = "Id: " + product.id)
                 }
                 Image(
-                    Icons.Filled.Add,
+                    Icons.Filled.Edit,
                     contentScale = ContentScale.Fit, // Cambia según tus necesidades
-
                     modifier = Modifier
                         .height(60.dp)
                         .width(60.dp),
                     contentDescription = "Producto",
                 )
-
             } else {
                 Icon(
                     Icons.Default.Add,

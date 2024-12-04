@@ -51,6 +51,8 @@ fun LoginScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.padding(5.dp))
             var texto by remember { mutableStateOf("") }
             var textoPass by remember { mutableStateOf("") }
+            var activo by remember { mutableStateOf(false) }
+
             TextField(value = texto, onValueChange = {newText-> texto=newText}
                 ,label= { Text("Username") }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.padding(5.dp))
@@ -59,14 +61,16 @@ fun LoginScreen(navController: NavHostController) {
                 visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.padding(5.dp))
-
+            if(textoPass.length>0){
+                activo=true
+            }
             Row (modifier = Modifier.align(Alignment.CenterHorizontally)){
-                Button(onClick = { navController.navigate(Screen.ListProducts.route) }
+                Button(onClick = { navController.navigate(Screen.ListProducts.route) },enabled = activo
                 ) {
                     Text(text = "Login")
                 }
                 Spacer(modifier = Modifier.padding(5.dp))
-                Button(onClick = { navController.navigate(Screen.Register.route) }
+                Button(onClick = { navController.navigate(Screen.Register.route)}
                 ) {
                     Text(text = "Register")
                 }
