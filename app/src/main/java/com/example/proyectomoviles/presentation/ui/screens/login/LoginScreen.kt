@@ -30,14 +30,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.presentation.navigation.Screen
 import com.example.proyectomoviles.presentation.ui.screens.ListProducts.ProdcutContent
+import com.example.proyectomoviles.presentation.viewmodel.login.UsernamePasswordViewModel
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController,usernamePasswordViewModel: UsernamePasswordViewModel) {
     Surface (modifier = Modifier.statusBarsPadding()){
         Column (modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center){
             Image(painter = painterResource(id = R.drawable.logo),
@@ -83,6 +85,6 @@ fun LoginScreen(navController: NavHostController) {
 @Composable
 fun GreetingPreview13() {
     LoginScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(), viewModel()
     )
 }

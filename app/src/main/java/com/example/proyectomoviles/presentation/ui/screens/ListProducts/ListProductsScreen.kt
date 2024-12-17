@@ -1,10 +1,8 @@
 package com.example.proyectomoviles.presentation.ui.screens.ListProducts
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Remove
@@ -26,43 +23,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectomoviles.domain.model.Product
+import com.example.proyectomoviles.presentation.viewmodel.products.ProductowViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProdcutContent(  navController: NavHostController) {
-    val products = listOf(
-        Product("Assad", "Invierno", 10, 20.5, 7458),
-        Product("Luna Rosa", "Primavera", 15, 25.0, 8324),
-        Product("Noche Eterna", "Verano", 12, 30.0, 9173),
-        Product("Aurora", "Otoño", 8, 18.7, 5641),
-        Product("Mystique", "Invierno", 20, 35.2, 1092),
-        Product("Velvet", "Primavera", 10, 22.5, 4532),
-        Product("Sahara", "Verano", 18, 28.0, 7812),
-        Product("Oasis", "Otoño", 25, 32.5, 6327),
-        Product("Elegance", "Primavera", 14, 24.0, 2998),
-        Product("Noir Absolu", "Invierno", 9, 29.9, 8831)
-    )
-    Scaffold (
+fun ProdcutContent(navController: NavHostController, viewModel: ProductowViewModel) {
+
+    val productos by viewModel.productos.collectAsState()
+    Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = "Productos") })
         },
-        content= { padding->
+        content = { padding ->
             LazyColumn(Modifier.padding(padding)) {
-                items(products) { product ->
-                    ProductCard(product)
+                items(productos) { product ->
+                    key(product) {
+                        ProductCard(product, viewModel, navController)
+                    }
                 }
             }
         },
@@ -71,7 +63,8 @@ fun ProdcutContent(  navController: NavHostController) {
                 Button(onClick = { navController.navigate("addProduct") }) {
                     Icon(
                         Icons.Default.Add,
-                        contentDescription = "AddProduct")
+                        contentDescription = "AddProduct"
+                    )
                 }
             }
         }
@@ -79,12 +72,13 @@ fun ProdcutContent(  navController: NavHostController) {
 }
 
 @Composable
-fun ProductCard(product: Product) {
+fun ProductCard(product: Product, viewModel: ProductowViewModel,navController: NavHostController) {
     var isSelected by remember { mutableStateOf(false) }
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(5.dp)) {
+            .padding(5.dp)
+    ) {
         Row {
             if (isSelected) {
                 Icon(
@@ -98,14 +92,28 @@ fun ProductCard(product: Product) {
                     Text(text = "Precio: " + product.price)
                     Text(text = "Id: " + product.id)
                 }
-                Image(
-                    Icons.Filled.Edit,
-                    contentScale = ContentScale.Fit, // Cambia según tus necesidades
-                    modifier = Modifier
-                        .height(60.dp)
-                        .width(60.dp),
-                    contentDescription = "Producto",
-                )
+
+                Column {
+                    Icon(
+                        Icons.Filled.Edit,
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(40.dp)
+                            .clickable { navController.navigate("updateProduct") }
+                            .align(Alignment.End),
+                        contentDescription = "Editar",
+                        )
+                    Icon(
+                        Icons.Filled.Delete,
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(40.dp)
+                            .clickable { viewModel.removeProduct(product.id) }
+                            .align(Alignment.End),
+                        contentDescription = "Eliminar",
+
+                        )
+                }
             } else {
                 Icon(
                     Icons.Default.Add,
@@ -122,6 +130,6 @@ fun ProductCard(product: Product) {
 @Composable
 fun GreetingPreview11() {
     ProdcutContent(
-            navController = rememberNavController()
+        navController = rememberNavController(), viewModel()
     )
 }

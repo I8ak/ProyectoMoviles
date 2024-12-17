@@ -1,4 +1,4 @@
-package com.example.proyectomoviles.presentation.ui.screens.addProduct
+package com.example.proyectomoviles.presentation.ui.screens.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,24 +19,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.example.proyectomoviles.domain.model.Product
 import com.example.proyectomoviles.presentation.navigation.Screen
 import com.example.proyectomoviles.presentation.viewmodel.products.ProductoViewModel
 import com.example.proyectomoviles.presentation.viewmodel.products.ProductowViewModel
-import com.example.proyectomoviles.ui.theme.ProyectoMovilesTheme
 
 @Composable
-fun AddProductsScreen(
-    navController: NavController,
+fun EditProductScreen(
+    navController: NavHostController,
     viewModel: ProductowViewModel,
     productsViewModel: ProductoViewModel
 ) {
-
+    // Lógica para editar un producto
+//    var name by remember { mutableStateOf("") }
+//    var category by remember { mutableStateOf("") }
+//    var precio by remember { mutableStateOf(0.0) }
+//    var id by remember { mutableStateOf(0) }
+//    var quantity by remember { mutableStateOf(0) }
+//    var borrarTaxt by remember { mutableStateOf(false) }
     var borrarTaxt by remember { mutableStateOf(false) }
     val product by productsViewModel.productos.collectAsState()
     if (borrarTaxt) {
@@ -51,7 +53,7 @@ fun AddProductsScreen(
             modifier = Modifier
                 .background(Color.LightGray)
                 .fillMaxWidth(),
-            value = product.name,
+            value = productsViewModel.getName(),
             onValueChange = { productsViewModel.setName(it) },
             label = { Text("Nombre") }
         )
@@ -60,7 +62,7 @@ fun AddProductsScreen(
             modifier = Modifier
                 .background(Color.LightGray)
                 .fillMaxWidth(),
-            value = product.category,
+            value = productsViewModel.getCategory(),
             onValueChange = { productsViewModel.setCategory(it) },
             label = { Text(text = "Categoria") }
         )
@@ -69,7 +71,7 @@ fun AddProductsScreen(
             modifier = Modifier
                 .background(Color.LightGray)
                 .fillMaxWidth(),
-            value =product.price.toString(),
+            value = productsViewModel.getPrice().toString(),
             onValueChange = { productsViewModel.setPrice(it.toDouble()) },
             label = { Text(text = "Precio") }
         )
@@ -78,8 +80,8 @@ fun AddProductsScreen(
             modifier = Modifier
                 .background(Color.LightGray)
                 .fillMaxWidth(),
-            value = product.quantity.toString(),
-            onValueChange = { productsViewModel.setQuantity(it.toInt()) },
+            value = productsViewModel.getQuantity().toString(),
+            onValueChange = {productsViewModel.setQuantity(it.toInt()) },
             label = { Text(text = "Cantidad") }
         )
         Spacer(modifier = Modifier.padding(5.dp))
@@ -87,32 +89,22 @@ fun AddProductsScreen(
             modifier = Modifier
                 .background(Color.LightGray)
                 .fillMaxWidth(),
-            value = product.id.toString(),
-            onValueChange = { productsViewModel.setId(it.toInt()) },
+            value =  productsViewModel.getId().toString(),
+            onValueChange = {productsViewModel.setId(it.toInt()) },
             label = { Text(text = "ID") }
         )
         Spacer(modifier = Modifier.padding(5.dp))
-        Row(modifier = Modifier.align(Alignment.End)) {
-            Button(onClick = { navController.navigate(Screen.ListProducts.route) }) {
+        Row (modifier = Modifier.align(Alignment.End)){
+            Button(onClick = {navController.navigate(Screen.ListProducts.route)} ){
                 Text("Lista de productos")
             }
 
             Button(onClick = {
-                viewModel.addProduct(Product(product.name, product.category, product.quantity, product.price, product.id))
+                viewModel.editProduct(Product(product.name,product.category,product.quantity,product.price,product.id))
                 borrarTaxt = true
-                navController.navigate(Screen.ListProducts.route)
             }) {
-                Text("Añadir")
+                Text("Editar")
             }
         }
-
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview2() {
-    ProyectoMovilesTheme {
-        AddProductsScreen(navController = rememberNavController(), viewModel(),productsViewModel = ProductoViewModel() )
     }
 }
